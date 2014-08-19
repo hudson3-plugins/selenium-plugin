@@ -6,10 +6,9 @@ package hudson.plugins.selenium.configuration.global.hostname;
 import hudson.DescriptorExtensionList;
 import hudson.ExtensionPoint;
 import hudson.model.Describable;
-
+import hudson.model.Hudson;
 import java.io.Serializable;
 
-import jenkins.model.Jenkins;
 
 /**
  * This extension point exists to be able to configure selenium to resolve a hostname and publish it to it's nodes and the status view.
@@ -34,11 +33,11 @@ public abstract class HostnameResolver implements Describable<HostnameResolver>,
     public abstract String retrieveHost();
 
     public HostnameResolverDescriptor getDescriptor() {
-        return (HostnameResolverDescriptor) Jenkins.getInstance().getDescriptor(getClass());
+        return (HostnameResolverDescriptor) Hudson.getInstance().getDescriptor(getClass());
     }
 
     public static DescriptorExtensionList<HostnameResolver, HostnameResolverDescriptor> all() {
-        return Jenkins.getInstance().<HostnameResolver, HostnameResolverDescriptor> getDescriptorList(HostnameResolver.class);
+        return Hudson.getInstance().<HostnameResolver, HostnameResolverDescriptor> getDescriptorList(HostnameResolver.class);
     }
 
 }

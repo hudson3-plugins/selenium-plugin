@@ -3,10 +3,9 @@ package hudson.plugins.selenium.configuration.browser.webdriver;
 import hudson.DescriptorExtensionList;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.plugins.selenium.configuration.browser.BrowserDescriptor;
+import hudson.model.Hudson;
 import hudson.plugins.selenium.configuration.browser.AbstractSeleniumBrowser;
-import jenkins.model.Jenkins;
-
+import hudson.plugins.selenium.configuration.browser.BrowserDescriptor;
 import org.openqa.grid.common.SeleniumProtocol;
 
 public abstract class WebDriverBrowser extends AbstractSeleniumBrowser<WebDriverBrowser> implements Describable<WebDriverBrowser> {
@@ -22,11 +21,11 @@ public abstract class WebDriverBrowser extends AbstractSeleniumBrowser<WebDriver
 
     @SuppressWarnings( "unchecked" )
     public Descriptor<WebDriverBrowser> getDescriptor() {
-        return Jenkins.getInstance().getDescriptor(getClass());
+        return Hudson.getInstance().getDescriptor(getClass());
     }
 
     public static DescriptorExtensionList<WebDriverBrowser, WebDriverBrowserDescriptor> all() {
-        return Jenkins.getInstance().<WebDriverBrowser, WebDriverBrowserDescriptor> getDescriptorList(WebDriverBrowser.class);
+        return Hudson.getInstance().<WebDriverBrowser, WebDriverBrowserDescriptor> getDescriptorList(WebDriverBrowser.class);
     }
 
     public static abstract class WebDriverBrowserDescriptor extends BrowserDescriptor<WebDriverBrowser> {

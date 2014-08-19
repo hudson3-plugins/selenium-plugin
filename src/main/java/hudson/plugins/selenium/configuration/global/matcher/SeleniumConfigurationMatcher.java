@@ -9,7 +9,6 @@ import hudson.model.Node;
 
 import java.io.Serializable;
 
-import jenkins.model.Jenkins;
 
 public abstract class SeleniumConfigurationMatcher implements ExtensionPoint, Describable<SeleniumConfigurationMatcher>, Serializable {
 
@@ -29,7 +28,7 @@ public abstract class SeleniumConfigurationMatcher implements ExtensionPoint, De
     }
 
     public MatcherDescriptor getDescriptor() {
-        return (MatcherDescriptor) Jenkins.getInstance().getDescriptorOrDie(getClass());
+        return (MatcherDescriptor) Hudson.getInstance().getDescriptorOrDie(getClass());
     }
 
     public String getSummary() {

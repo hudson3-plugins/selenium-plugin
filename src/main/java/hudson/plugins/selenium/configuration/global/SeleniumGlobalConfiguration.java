@@ -20,8 +20,6 @@ import java.util.concurrent.ExecutionException;
 
 import javax.servlet.ServletException;
 
-import jenkins.model.Jenkins;
-
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
@@ -104,7 +102,7 @@ public class SeleniumGlobalConfiguration implements Serializable, Describable<Se
     }
 
     public Descriptor<SeleniumGlobalConfiguration> getDescriptor() {
-        return Jenkins.getInstance().getDescriptorByType(DescriptorImpl.class);
+        return Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
     }
 
     public static final class DescriptorImpl extends Descriptor<SeleniumGlobalConfiguration> {

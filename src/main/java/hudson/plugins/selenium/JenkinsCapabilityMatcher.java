@@ -5,17 +5,15 @@ import hudson.model.Label;
 import hudson.model.Node;
 import hudson.remoting.Callable;
 import hudson.remoting.Channel;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.antlr.runtime.RecognitionException;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.grid.internal.utils.CapabilityMatcher;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import antlr.ANTLRException;
 
 /**
  * {@link CapabilityMatcher} that adds "jenkins.label" support.
@@ -75,7 +73,7 @@ public class JenkinsCapabilityMatcher implements CapabilityMatcher {
             return nodeMatch && master.call(new LabelMatcherCallable(nodeName, labelExpr));
         } catch (IOException e) {
             LOGGER.log(Level.INFO, "Failed to communicate with master for capability matching", e);
-        } catch (ANTLRException e) {
+        } catch (RecognitionException e) {
             LOGGER.log(Level.INFO, "Invalid label expression: " + label, e);
         } catch (InterruptedException e) {
             LOGGER.log(Level.INFO, "Failed to communicate with master for capability matching", e);
@@ -101,7 +99,7 @@ public class JenkinsCapabilityMatcher implements CapabilityMatcher {
     /**
      * Checks if the given node satisfies the label expression.
      */
-    private static class LabelMatcherCallable implements Callable<Boolean, ANTLRException> {
+    private static class LabelMatcherCallable implements Callable<Boolean, RecognitionException> {
 
         private final String nodeName;
         private final String labelExpr;
@@ -111,7 +109,7 @@ public class JenkinsCapabilityMatcher implements CapabilityMatcher {
             this.labelExpr = labelExpr;
         }
 
-        public Boolean call() throws ANTLRException {
+        public Boolean call() throws RecognitionException {
             Node n = Hudson.getInstance().getNode(nodeName);
             if (n == null)
                 return false;

@@ -35,6 +35,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @author Richard Lavoie
  */
 public class SeleniumTest extends HudsonTestCase {
+    
+    @Override
+    protected void setUp() throws Exception {
+        System.setProperty("hudson.PluginStrategy", "hudson.ClassicPluginStrategy");
+        super.setUp();
+    }
 
     @Override
     protected Hudson newHudson() throws Exception {

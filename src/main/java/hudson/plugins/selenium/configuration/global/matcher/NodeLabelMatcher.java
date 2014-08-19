@@ -7,17 +7,13 @@ import hudson.model.Label;
 import hudson.model.Node;
 import hudson.model.labels.LabelAtom;
 import hudson.util.FormValidation;
-
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletException;
-
+import org.antlr.runtime.RecognitionException;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.export.Exported;
-
-import antlr.ANTLRException;
 
 @Extension
 public class NodeLabelMatcher extends SeleniumConfigurationMatcher {
@@ -43,7 +39,7 @@ public class NodeLabelMatcher extends SeleniumConfigurationMatcher {
             return false;
         try {
             return Label.parseExpression(labelExpr).matches(node);
-        } catch (ANTLRException e) {
+        } catch (RecognitionException e) {
         }
         return false;
     }
@@ -76,13 +72,13 @@ public class NodeLabelMatcher extends SeleniumConfigurationMatcher {
             AutoCompletionCandidates candidates = new AutoCompletionCandidates();
             List<Node> masterNodeList = Hudson.getInstance().getNodes();
             for (Node node : masterNodeList) {
-                try {
-                    for (LabelAtom atom : Label.parseExpression(node.getLabelString()).listAtoms()) {
+                //try {
+                    for (LabelAtom atom : Label.parse(node.getLabelString())) {
                         candidates.add(atom.getName());
                     }
-                } catch (ANTLRException e) {
-                    // invalid expression, skipped
-                }
+//                } catch (RecognitionException e) {
+//                    // invalid expression, skipped
+//                }
             }
             return candidates;
         }

@@ -6,7 +6,6 @@ import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.plugins.selenium.configuration.browser.BrowserDescriptor;
 import hudson.plugins.selenium.configuration.browser.AbstractSeleniumBrowser;
-import jenkins.model.Jenkins;
 
 import org.openqa.grid.common.SeleniumProtocol;
 
@@ -23,7 +22,7 @@ public abstract class SeleniumBrowser extends AbstractSeleniumBrowser<SeleniumBr
 
     @SuppressWarnings( "unchecked" )
     public Descriptor<SeleniumBrowser> getDescriptor() {
-        return Jenkins.getInstance().getDescriptor(getClass());
+        return Hudson.getInstance().getDescriptor(getClass());
     }
 
     public static DescriptorExtensionList<SeleniumBrowser, SeleniumBrowserDescriptor> all() {

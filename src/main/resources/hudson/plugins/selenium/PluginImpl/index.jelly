@@ -46,7 +46,7 @@
             ${%RunningAt(it.masterHostName,it.port)}
             ${%ConnectFrom1}
           </div>
-          <pre style="margin:1em">Selenium selenium = new DefaultSelenium("${it.masterHostName}", ${it.port}, "*firefox", "http://jenkins-ci.org/");</pre>
+          <pre style="margin:1em">Selenium selenium = new DefaultSelenium("${it.masterHostName}", ${it.port}, "*firefox", "http://hudson-ci.org/");</pre>
           <div>
             ${%ConnectFrom2}
           </div>

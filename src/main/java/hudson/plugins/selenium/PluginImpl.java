@@ -52,7 +52,6 @@ import hudson.remoting.Callable;
 import hudson.remoting.Channel;
 import hudson.security.Permission;
 import hudson.security.PermissionGroup;
-import hudson.security.PermissionScope;
 import hudson.util.IOException2;
 import hudson.util.StreamTaskListener;
 
@@ -77,8 +76,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
-
-import jenkins.model.Jenkins;
 
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.HttpResponses;
@@ -107,8 +104,7 @@ public class PluginImpl extends Plugin implements Action, Serializable, Describa
 
     private static final PermissionGroup SELENIUM_GROUP = new PermissionGroup(PluginImpl.class, Messages._PermissionGroup());
 
-    private static final Permission SELENIUM_ADMIN = new Permission(SELENIUM_GROUP, "Admin", Messages._AdminPermission(), Computer.CONFIGURE, true,
-            new PermissionScope[0]);
+    private static final Permission SELENIUM_ADMIN = new Permission(SELENIUM_GROUP, "Admin", Messages._AdminPermission(), Computer.CONFIGURE, true);
 
     /**
      * Default port for hub servlet.
@@ -250,7 +246,7 @@ public class PluginImpl extends Plugin implements Action, Serializable, Describa
 
     @Override
     public void stop() throws Exception {
-        for (Computer c : Jenkins.getInstance().getComputers()) {
+        for (Computer c : Hudson.getInstance().getComputers()) {
             for (SeleniumGlobalConfiguration cfg : configurations) {
                 cfg.stop(c);
             }
@@ -451,7 +447,7 @@ public class PluginImpl extends Plugin implements Action, Serializable, Describa
     }
 
     public static PluginImpl getPlugin() {
-        return Jenkins.getInstance().getPlugin(PluginImpl.class);
+        return Hudson.getInstance().getPlugin(PluginImpl.class);
     }
 
     @Exported
@@ -565,7 +561,7 @@ public class PluginImpl extends Plugin implements Action, Serializable, Describa
                 return o1.getName().compareTo(o2.getName());
             }
         });
-        for (Computer c : Jenkins.getInstance().getComputers()) {
+        for (Computer c : Hudson.getInstance().getComputers()) {
             List<SeleniumGlobalConfiguration> confs = getGlobalConfigurationForComputer(c);
             if (confs != null && confs.size() > 0) {
                 cps.put(c, confs);
@@ -613,7 +609,7 @@ public class PluginImpl extends Plugin implements Action, Serializable, Describa
             SeleniumGlobalConfiguration conf = it.next();
             if (conf.getName().equals(name)) {
                 it.remove();
-                for (Computer c : Jenkins.getInstance().getComputers()) {
+                for (Computer c : Hudson.getInstance().getComputers()) {
                     conf.remove(c);
                 }
                 if (save) {
